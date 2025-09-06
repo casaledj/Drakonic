@@ -1,0 +1,22 @@
+{
+  "name": "drakonic-systems-landing",
+  "version": "1.0.0",
+  "description": "Drakonic Systems - Static Landing Page with AWS CDK Deployment",
+  "private": true,
+  "scripts": {
+    "build": "./scripts/build.sh",
+    "build:frontend": "cd frontend && npm run build",
+    "build:cdk": "cd infrastructure && npm run build",
+    "deploy": "./scripts/deploy.sh",
+    "dev": "cd frontend && npm run dev",
+    "cdk": "cd infrastructure && npx cdk",
+    "synth": "cd infrastructure && npx cdk synth",
+    "bootstrap": "cd infrastructure && npx cdk bootstrap",
+    "destroy": "cd infrastructure && npx cdk destroy",
+    "clean": "rm -rf frontend/dist infrastructure/cdk.out frontend/node_modules infrastructure/node_modules node_modules",
+    "install:all": "npm install && cd frontend && npm install && cd ../infrastructure && npm install"
+  },
+  "keywords": ["aws", "cdk", "react", "vite", "static-site", "generative-ai"],
+  "author": "Drakonic Systems",
+  "license": "MIT"
+}

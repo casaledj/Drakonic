@@ -1,0 +1,109 @@
+name: Deploy Drakonic Systems Landing Page
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: |
+          npm install
+          cd frontend && npm install
+          cd ../infrastructure && npm install
+
+      - name: Build frontend
+        run: |
+          cd frontend
+          npm run build
+
+      - name: Build infrastructure
+        run: |
+          cd infrastructure
+          npm run build
+
+      - name: Run tests (if any)
+        run: |
+          # Add test commands here when tests are available
+          echo "Tests would run here"
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+          aws-region: ${{ secrets.AWS_REGION || 'us-east-1' }}
+
+      - name: Install dependencies
+        run: |
+          npm install
+          cd frontend && npm install
+          cd ../infrastructure && npm install
+
+      - name: Build frontend
+        run: |
+          cd frontend
+          npm run build
+
+      - name: Build infrastructure
+        run: |
+          cd infrastructure
+          npm run build
+
+      - name: Deploy to AWS
+        run: |
+          cd infrastructure
+          npx cdk deploy --require-approval never
+
+      - name: Get deployment URL
+        id: get-url
+        run: |
+          cd infrastructure
+          URL=$(npx cdk output DrakonicSystemsStack.WebsiteURL --no-color || echo "URL not available")
+          echo "website-url=$URL" >> $GITHUB_OUTPUT
+
+      - name: Comment deployment URL on PR
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const url = '${{ steps.get-url.outputs.website-url }}';
+            if (url && url !== 'URL not available') {
+              github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: `🚀 **Deployment successful!**\n\n📱 **Website URL:** ${url}`
+              });
+            }
