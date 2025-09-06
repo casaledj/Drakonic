@@ -21,7 +21,7 @@ const Footer = () => {
               <img 
                 src="/drakonic-systems-logo.png" 
                 alt="Drakonic Systems Logo" 
-                className="w-12 h-12 object-contain filter brightness-0 invert"
+                className="w-24 h-24 object-contain filter brightness-0 invert"
               />
               <div>
                 <span className="text-2xl font-bold">Drakonic Systems</span>

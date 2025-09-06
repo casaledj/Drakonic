@@ -58,8 +58,7 @@ const Services = () => {
                 </div>
                 
                 <div className="flex-1">
-                  <h3 className="text-2xl font-bold text-primary-900 mb-3 group-hover:text-accent-600 transition-colors duration-300">
-                    {service.title}
+                  <h3 className="text-2xl font-bold text-primary-900 mb-3 group-hover:text-accent-600 transition-colors duration-300">                    {service.title}
                   </h3>
                   <p className="text-primary-600 mb-6 leading-relaxed">
                     {service.description}
@@ -108,22 +107,7 @@ const Services = () => {
           </div>
         </div>
 
-        <div className="text-center">
-          <div className="glass-card inline-block p-8">
-            <h3 className="text-2xl font-bold text-primary-900 mb-4">
-              Ready to Transform Your Business?
-            </h3>
-            <p className="text-primary-600 mb-6 max-w-md">
-              Let's discuss how our solutions can accelerate your growth and innovation.
-            </p>
-            <button 
-              onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
-              className="btn-accent text-lg"
-            >
-              Start Your Journey →
-            </button>
-          </div>
-        </div>
+        
       </div>
     </section>
   )

@@ -27,7 +27,7 @@ const Contact = () => {
       </div>
       
       <div className="container-max relative">
-        <div className="text-center mb-20">
+        <div className="text-center mb-10">
           <div className="inline-flex items-center px-4 py-2 bg-accent-100/80 backdrop-blur-sm border border-accent-200/50 rounded-full text-sm font-semibold text-accent-800 mb-8 shadow-lg">
             <span className="w-2 h-2 bg-accent-500 rounded-full mr-3 animate-pulse"></span>
             Let's Build Something Amazing
